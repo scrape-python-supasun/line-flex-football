@@ -40,6 +40,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    ball = request.get('https://scrape-score-ball.herokuapp.com/').json()
+    print(ball)
     carousel_template_message = TemplateSendMessage(
     alt_text='Carousel template',
     template=CarouselTemplate(
