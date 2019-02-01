@@ -87,7 +87,7 @@ def handle_message(event):
         ]
     )
 )
-    if 'test' in event.message:
+    if 'test' in event.message.text:
         line_bot_api.reply_message(event.reply_token, carousel_template_message)
     else:
         line_bot_api.reply_message(event.reply_token, 'fail')
