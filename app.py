@@ -87,12 +87,12 @@ def handle_message(event):
         ]
     )
 )
-    # if event.message.text == 'test':
-    #     line_bot_api.reply_message(event.reply_token, carousel_template_message)
-    # else:
-    print(event.message.text)
-    print(type(event.message.text))
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    if 'test' in event.message.text:
+        line_bot_api.reply_message(event.reply_token, carousel_template_message)
+    else:
+    # print(event.message.text)
+    # print(type(event.message.text))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
 
 # class test(Resource):
