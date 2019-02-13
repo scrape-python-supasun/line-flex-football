@@ -56,9 +56,9 @@ def handle_message(event):
     # ball = requests.get('https://scrape-news-football-eng.herokuapp.com/time?dayTimeNews={}').format(datetimeUtc).json()
     apiScoreBall = ('https://scrape-score-ball.herokuapp.com/scoreball?homeTeam=Alaves')
    
-   
+    listPlayerAndTime = []
     homeTeamScoreBalls = requests.get(apiScoreBall).json()
-   
+    
     carousel_container = CarouselContainer()
     # T = new_eng
     # H = tablelLeague
@@ -98,7 +98,14 @@ def handle_message(event):
             print("playerScoreHome:",playerScoreHome)
             print("playerYellowCardAway:",playerYellowCardAway)
             print("playerYellowCardHome:",playerYellowCardHomes)
-                
+            # for playerYellowCardHome in playerYellowCardHomes:
+            #     playerAndTime = playerYellowCardHome.split(" ")
+            #     listPlayerAndTime.append(playerAndTime)
+            # print("listPlayerAndTime",listPlayerAndTime)
+            # print("listPlayerAndTime",len(listPlayerAndTime))
+
+            
+
             print("redCardAway:",redCardAway)
             print("teamAwayScore:",teamAwayScore)
             print("teamHomeScore:",teamHomeScore)
