@@ -10,7 +10,7 @@ import requests
 
 from datetime import datetime,tzinfo,timedelta
 import json
-import test_news_eng
+# import test_news_eng
 class Zone(tzinfo):
     def __init__(self,offset,isdst,name):
         self.offset = offset
@@ -110,12 +110,13 @@ def handle_message(event):
         buttons = []
         texts = []
         listLeagueTeam = []
+        notDeplicates = []
         for homeTeamScoreBall in homeTeamScoreBalls:
             awayTeam = homeTeamScoreBall['match']['awayTeam']
             homeTeam = homeTeamScoreBall['match']['homeTeam']
             leagueTeam = homeTeamScoreBall['match']['league']
             listLeagueTeam.append(leagueTeam)
-        notDeplicates = []
+        # ----------------------------------------------
         for element in listLeagueTeam:
             if element not in notDeplicates:
                 notDeplicates.append(element)
@@ -216,6 +217,7 @@ def handle_message(event):
         print(splitTeamLink)
         apiScoreBall = ('https://scrape-score-ball.herokuapp.com/scoreball?homeTeam={}').format(splitTeamLink)
         homeTeamScoreBalls = requests.get(apiScoreBall).json()
+        # print(homeTeamScoreBalls)
         carousel_container = CarouselContainer()
         listAllPlayer = []
         listAllTime = []
@@ -228,429 +230,429 @@ def handle_message(event):
             timeStatus = homeTeamScoreBall['match']['timeStatus']
             playerRedCardHomes = homeTeamScoreBall['match']['playerRedCardHome']
 
-            if playerRedCardHomes == None:
-                HaveRedCardHome = None
+        if playerRedCardHomes == None:
+            HaveRedCardHome = None
 
-            else:
-                listNamePlayerRedCardHome = []
-                listTimePlayerRedCardHome = []
-                for playerRedCardHome in playerRedCardHomes:
-                    splitPlayerRedCardHome = playerRedCardHome.split("), ")
-                    lengthSplitPlayerRedCardHome = len(splitPlayerRedCardHome)
-                for elementRedCardHome in range(0,lengthSplitPlayerRedCardHome):
-                    splitPlayerRedCardHomeTwo = splitPlayerRedCardHome[elementRedCardHome]
-                    splitPlayerRedCardHomeThree = splitPlayerRedCardHomeTwo.split(" (")
-                    namePlayerRedCardHome = splitPlayerRedCardHomeThree[0]
-                    timeNotCorretRedCardHome = splitPlayerRedCardHomeThree[1]
-                    timeCorretRedCardHome = timeNotCorretRedCardHome.split(")")[0]
-                    TimePlayerRedCardHome = timeCorretRedCardHome
-                    HaveRedCardHome = elementRedCardHome + 1
-                    namePlayerRedCardHomeTrue = "{}:RedCardHome".format(namePlayerRedCardHome)
-                    listNamePlayerRedCardHome.append(namePlayerRedCardHomeTrue)
-                    listTimePlayerRedCardHome.append(TimePlayerRedCardHome)
-                    listAllPlayer.append(namePlayerRedCardHomeTrue)
-                    listAllTime.append(TimePlayerRedCardHome)
+        else:
+            listNamePlayerRedCardHome = []
+            listTimePlayerRedCardHome = []
+            for playerRedCardHome in playerRedCardHomes:
+                splitPlayerRedCardHome = playerRedCardHome.split("), ")
+                lengthSplitPlayerRedCardHome = len(splitPlayerRedCardHome)
+            for elementRedCardHome in range(0,lengthSplitPlayerRedCardHome):
+                splitPlayerRedCardHomeTwo = splitPlayerRedCardHome[elementRedCardHome]
+                splitPlayerRedCardHomeThree = splitPlayerRedCardHomeTwo.split(" (")
+                namePlayerRedCardHome = splitPlayerRedCardHomeThree[0]
+                timeNotCorretRedCardHome = splitPlayerRedCardHomeThree[1]
+                timeCorretRedCardHome = timeNotCorretRedCardHome.split(")")[0]
+                TimePlayerRedCardHome = timeCorretRedCardHome
+                HaveRedCardHome = elementRedCardHome + 1
+                namePlayerRedCardHomeTrue = "{}:RedCardHome".format(namePlayerRedCardHome)
+                listNamePlayerRedCardHome.append(namePlayerRedCardHomeTrue)
+                listTimePlayerRedCardHome.append(TimePlayerRedCardHome)
+                listAllPlayer.append(namePlayerRedCardHomeTrue)
+                listAllTime.append(TimePlayerRedCardHome)
 
-            playerRedCardAways = homeTeamScoreBall['match']['playeRedCardAway']
-            if playerRedCardAways == None:
-                HaveRedCardAway = 0
-            else:
-                listNamePlayerRedCardAway = []
-                listTimePlayerRedCardAway = []
-                for playerRedCardAway in playerRedCardAways:
-                    splitPlayerRedCardAway = playerRedCardAway.split("), ")
-                    lengthSplitPlayerRedCardAway = len(splitPlayerRedCardAway)
-                for elementRedCardAway in range(0,lengthSplitPlayerRedCardAway):
-                    splitPlayerRedCardAwayTwo = splitPlayerRedCardAway[elementRedCardAway]
-                    splitPlayerRedCardAwayThree = splitPlayerRedCardAwayTwo.split(" (")
-                    namePlayerRedCardAway = splitPlayerRedCardAwayThree[0]
-                    timeNotCorretRedCardAway = splitPlayerRedCardAwayThree[1]
-                    timeCorretRedCardAway = timeNotCorretRedCardAway.split(")")[0]
-                    TimePlayerRedCardAway = timeCorretRedCardAway
-                    HaveRedCardAway = elementRedCardAway + 1
-                    namePlayerRedCardAwayTrue = "{}:RedCardAway".format(namePlayerRedCardAway)
-                    listNamePlayerRedCardAway.append(namePlayerRedCardAwayTrue)
-                    listTimePlayerRedCardAway.append(TimePlayerRedCardAway)
-                    listAllPlayer.append(namePlayerRedCardAwayTrue)
-                    listAllTime.append(TimePlayerRedCardAway)
+        playerRedCardAways = homeTeamScoreBall['match']['playeRedCardAway']
+        if playerRedCardAways == None:
+            HaveRedCardAway = 0
+        else:
+            listNamePlayerRedCardAway = []
+            listTimePlayerRedCardAway = []
+            for playerRedCardAway in playerRedCardAways:
+                splitPlayerRedCardAway = playerRedCardAway.split("), ")
+                lengthSplitPlayerRedCardAway = len(splitPlayerRedCardAway)
+            for elementRedCardAway in range(0,lengthSplitPlayerRedCardAway):
+                splitPlayerRedCardAwayTwo = splitPlayerRedCardAway[elementRedCardAway]
+                splitPlayerRedCardAwayThree = splitPlayerRedCardAwayTwo.split(" (")
+                namePlayerRedCardAway = splitPlayerRedCardAwayThree[0]
+                timeNotCorretRedCardAway = splitPlayerRedCardAwayThree[1]
+                timeCorretRedCardAway = timeNotCorretRedCardAway.split(")")[0]
+                TimePlayerRedCardAway = timeCorretRedCardAway
+                HaveRedCardAway = elementRedCardAway + 1
+                namePlayerRedCardAwayTrue = "{}:RedCardAway".format(namePlayerRedCardAway)
+                listNamePlayerRedCardAway.append(namePlayerRedCardAwayTrue)
+                listTimePlayerRedCardAway.append(TimePlayerRedCardAway)
+                listAllPlayer.append(namePlayerRedCardAwayTrue)
+                listAllTime.append(TimePlayerRedCardAway)
+        
+        listNamePlayerScoreAway = []
+        listTimePlayerScoreAway = []
+        
+        playerScoreAways = homeTeamScoreBall['match']['playerScoreAway']
+
+        if playerScoreAways == None:
+            ScoreAway = 0
+        else:
+            for playerScoreAway in playerScoreAways:
+                splitPlayerScoreAway = playerScoreAway.split("), ")
+                lengthSplitPlayerScoreAway = len(splitPlayerScoreAway)
+            for elementScoreAway in range(0,lengthSplitPlayerScoreAway):
+                splitPlayerScoreAwayTwo = splitPlayerScoreAway[elementScoreAway]
+                splitPlayerScoreAwayThree = splitPlayerScoreAwayTwo.split(" (")
+                namePlayerScoreAway = splitPlayerScoreAwayThree[0]
+                timeNotCorretScoreAway = splitPlayerScoreAwayThree[1]
+                timeCorretScoreAway = timeNotCorretScoreAway.split(")")[0]
+                TimePlayerScoreAway = timeCorretScoreAway
+                ScoreAway = elementScoreAway + 1
+                namePlayerScoreAwayTrue = "{}:ScoreAway".format(namePlayerScoreAway)
+                listNamePlayerScoreAway.append(namePlayerScoreAwayTrue)
+                listTimePlayerScoreAway.append(TimePlayerScoreAway)
+                listAllPlayer.append(namePlayerScoreAwayTrue)
+                listAllTime.append(TimePlayerScoreAway)
             
-            listNamePlayerScoreAway = []
-            listTimePlayerScoreAway = []
-          
-            playerScoreAways = homeTeamScoreBall['match']['playerScoreAway']
+        playerScoreHome = homeTeamScoreBall['match']['playerScoreHome']
+        if playerScoreHome == None:
+            ScoreHome = 0
+        else:
+            splitPlayerScoreHome = playerScoreHome.split("), ")
+            lengthSplitPlayerScoreHome = len(splitPlayerScoreHome)
+            listNamePlayerScoreHome = []
+            listTimePlayerScoreHome = []
+            for elementScoreHome in range(0,lengthSplitPlayerScoreHome):
+                splitPlayerScoreHomeTwo = splitPlayerScoreHome[elementScoreHome]
+                splitPlayerScoreHomeThree = splitPlayerScoreHomeTwo.split(" (")
+                namePlayerScoreHome = splitPlayerScoreHomeThree[0]
+                timeNotCorretScoreHome = splitPlayerScoreHomeThree[1]
+                timeCorretScoreHome = timeNotCorretScoreHome.split(")")[0]
+                TimePlayerScoreHome = timeCorretScoreHome
+                ScoreHome = elementScoreHome + 1
+                namePlayerScoreHomeTrue = "{}:ScoreHome".format(namePlayerScoreHome)
+                listNamePlayerScoreHome.append(namePlayerScoreHomeTrue)
+                listTimePlayerScoreHome.append(TimePlayerScoreHome)
+                listAllPlayer.append(namePlayerScoreHomeTrue)
+                listAllTime.append(TimePlayerScoreHome)
 
-            if playerScoreAways == None:
-                ScoreAway = 0
-            else:
-                for playerScoreAway in playerScoreAways:
-                    splitPlayerScoreAway = playerScoreAway.split("), ")
-                    lengthSplitPlayerScoreAway = len(splitPlayerScoreAway)
-                for elementScoreAway in range(0,lengthSplitPlayerScoreAway):
-                    splitPlayerScoreAwayTwo = splitPlayerScoreAway[elementScoreAway]
-                    splitPlayerScoreAwayThree = splitPlayerScoreAwayTwo.split(" (")
-                    namePlayerScoreAway = splitPlayerScoreAwayThree[0]
-                    timeNotCorretScoreAway = splitPlayerScoreAwayThree[1]
-                    timeCorretScoreAway = timeNotCorretScoreAway.split(")")[0]
-                    TimePlayerScoreAway = timeCorretScoreAway
-                    ScoreAway = elementScoreAway + 1
-                    namePlayerScoreAwayTrue = "{}:ScoreAway".format(namePlayerScoreAway)
-                    listNamePlayerScoreAway.append(namePlayerScoreAwayTrue)
-                    listTimePlayerScoreAway.append(TimePlayerScoreAway)
-                    listAllPlayer.append(namePlayerScoreAwayTrue)
-                    listAllTime.append(TimePlayerScoreAway)
-                
-            playerScoreHome = homeTeamScoreBall['match']['playerScoreHome']
-            if playerScoreHome == None:
-                ScoreHome = 0
-            else:
-                splitPlayerScoreHome = playerScoreHome.split("), ")
-                lengthSplitPlayerScoreHome = len(splitPlayerScoreHome)
-                listNamePlayerScoreHome = []
-                listTimePlayerScoreHome = []
-                for elementScoreHome in range(0,lengthSplitPlayerScoreHome):
-                    splitPlayerScoreHomeTwo = splitPlayerScoreHome[elementScoreHome]
-                    splitPlayerScoreHomeThree = splitPlayerScoreHomeTwo.split(" (")
-                    namePlayerScoreHome = splitPlayerScoreHomeThree[0]
-                    timeNotCorretScoreHome = splitPlayerScoreHomeThree[1]
-                    timeCorretScoreHome = timeNotCorretScoreHome.split(")")[0]
-                    TimePlayerScoreHome = timeCorretScoreHome
-                    ScoreHome = elementScoreHome + 1
-                    namePlayerScoreHomeTrue = "{}:ScoreHome".format(namePlayerScoreHome)
-                    listNamePlayerScoreHome.append(namePlayerScoreHomeTrue)
-                    listTimePlayerScoreHome.append(TimePlayerScoreHome)
-                    listAllPlayer.append(namePlayerScoreHomeTrue)
-                    listAllTime.append(TimePlayerScoreHome)
-
-            playerYellowCardAway = homeTeamScoreBall['match']['playerYellowCardAway']
-            if playerYellowCardAway == None:
-                haveYellowCardAway = 0
-            else:
-                listNamePlayerYellowCardAway = []
-                listTimePlayerYellowCardAway = []
-                splitPlayerYellowCardAway = playerYellowCardAway.split("), ")
-                lengthSplitPlayerYellowCardAway = len(splitPlayerYellowCardAway)
-                for elementYellowCardAway in range(0,lengthSplitPlayerYellowCardAway):
-                    splitPlayerYellowCardAwayTwo = splitPlayerYellowCardAway[elementYellowCardAway]
-                    splitPlayerYellowCardAwayThree = splitPlayerYellowCardAwayTwo.split(" (")
-                    namePlayerYellowCardAway = splitPlayerYellowCardAwayThree[0]
-                    timeNotCorretYellowCardAway = splitPlayerYellowCardAwayThree[1]
-                    timeCorretYellowCardAway = timeNotCorretYellowCardAway.split(")")[0]
-                    TimePlayerYellowCardAway = timeCorretYellowCardAway
-                    haveYellowCardAway = elementYellowCardAway + 1
-                    namePlayerYellowCardAwayTrue = "{}:YellowCardAway".format(namePlayerYellowCardAway)
-                    listNamePlayerYellowCardAway.append(namePlayerYellowCardAwayTrue)
-                    listTimePlayerYellowCardAway.append(TimePlayerYellowCardAway)
-                    listAllPlayer.append(namePlayerYellowCardAwayTrue)
-                    listAllTime.append(TimePlayerYellowCardAway)
+        playerYellowCardAway = homeTeamScoreBall['match']['playerYellowCardAway']
+        if playerYellowCardAway == None:
+            haveYellowCardAway = 0
+        else:
+            listNamePlayerYellowCardAway = []
+            listTimePlayerYellowCardAway = []
+            splitPlayerYellowCardAway = playerYellowCardAway.split("), ")
+            lengthSplitPlayerYellowCardAway = len(splitPlayerYellowCardAway)
+            for elementYellowCardAway in range(0,lengthSplitPlayerYellowCardAway):
+                splitPlayerYellowCardAwayTwo = splitPlayerYellowCardAway[elementYellowCardAway]
+                splitPlayerYellowCardAwayThree = splitPlayerYellowCardAwayTwo.split(" (")
+                namePlayerYellowCardAway = splitPlayerYellowCardAwayThree[0]
+                timeNotCorretYellowCardAway = splitPlayerYellowCardAwayThree[1]
+                timeCorretYellowCardAway = timeNotCorretYellowCardAway.split(")")[0]
+                TimePlayerYellowCardAway = timeCorretYellowCardAway
+                haveYellowCardAway = elementYellowCardAway + 1
+                namePlayerYellowCardAwayTrue = "{}:YellowCardAway".format(namePlayerYellowCardAway)
+                listNamePlayerYellowCardAway.append(namePlayerYellowCardAwayTrue)
+                listTimePlayerYellowCardAway.append(TimePlayerYellowCardAway)
+                listAllPlayer.append(namePlayerYellowCardAwayTrue)
+                listAllTime.append(TimePlayerYellowCardAway)
 
 
-            playerYellowCardHomes = homeTeamScoreBall['match']['playerYellowCardHome']
-            if playerYellowCardHomes == None:
-                playerYellowCardHomes = 0
-            else:
-                listNamePlayerYellowCardHome = []
-                listTimePlayerYellowCardHome = []
-                for playerYellowCardHome in playerYellowCardHomes:
-                    splitPlayerYellowCardHome = playerYellowCardHome.split("), ")
-                    lengthSplitPlayerYellowCardHome = len(splitPlayerYellowCardHome)
-                for elementYellowCardHome in range(0,lengthSplitPlayerYellowCardHome):
-                    splitPlayerYellowCardHomeTwo = splitPlayerYellowCardHome[elementYellowCardHome]
-                    splitPlayerYellowCardHomeThree = splitPlayerYellowCardHomeTwo.split(" (")
-                    namePlayerYellowCardHome = splitPlayerYellowCardHomeThree[0]
-                    timeNotCorretYellowCardHome = splitPlayerYellowCardHomeThree[1]
-                    timeCorretYellowCardHome = timeNotCorretYellowCardHome.split(")")[0]             
-                    TimePlayerYellowCardHome = timeCorretYellowCardHome
-                    haveYellowCardHome = elementYellowCardHome + 1
-                    namePlayerYellowCardHomeTrue = "{}:YellowCardHome".format(namePlayerYellowCardHome)
-                    listNamePlayerYellowCardHome.append(namePlayerYellowCardHomeTrue)
-                    listTimePlayerYellowCardHome.append(TimePlayerYellowCardHome)
-                    listAllPlayer.append(namePlayerYellowCardHomeTrue)
-                    listAllTime.append(TimePlayerYellowCardHome)
+        playerYellowCardHomes = homeTeamScoreBall['match']['playerYellowCardHome']
+        if playerYellowCardHomes == None:
+            playerYellowCardHomes = 0
+        else:
+            listNamePlayerYellowCardHome = []
+            listTimePlayerYellowCardHome = []
+            for playerYellowCardHome in playerYellowCardHomes:
+                splitPlayerYellowCardHome = playerYellowCardHome.split("), ")
+                lengthSplitPlayerYellowCardHome = len(splitPlayerYellowCardHome)
+            for elementYellowCardHome in range(0,lengthSplitPlayerYellowCardHome):
+                splitPlayerYellowCardHomeTwo = splitPlayerYellowCardHome[elementYellowCardHome]
+                splitPlayerYellowCardHomeThree = splitPlayerYellowCardHomeTwo.split(" (")
+                namePlayerYellowCardHome = splitPlayerYellowCardHomeThree[0]
+                timeNotCorretYellowCardHome = splitPlayerYellowCardHomeThree[1]
+                timeCorretYellowCardHome = timeNotCorretYellowCardHome.split(")")[0]             
+                TimePlayerYellowCardHome = timeCorretYellowCardHome
+                haveYellowCardHome = elementYellowCardHome + 1
+                namePlayerYellowCardHomeTrue = "{}:YellowCardHome".format(namePlayerYellowCardHome)
+                listNamePlayerYellowCardHome.append(namePlayerYellowCardHomeTrue)
+                listTimePlayerYellowCardHome.append(TimePlayerYellowCardHome)
+                listAllPlayer.append(namePlayerYellowCardHomeTrue)
+                listAllTime.append(TimePlayerYellowCardHome)
+        
+        namePlayerSolution = []
+
+        lengthEventPeople = len(listAllPlayer)
+        for elementEventPlayer in range(0,lengthEventPeople):
+            allTimeEvent = listAllTime[elementEventPlayer].split(",")
+            lengthTimeForEvent = len(allTimeEvent)
+            if lengthTimeForEvent == 1:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 2:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 3:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 4:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 5:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 6:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 7:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 8:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 9:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+            elif lengthTimeForEvent == 10:
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+                namePlayerSolution.append(listAllPlayer[elementEventPlayer])
+        countYellowCardAway = 0
+        countYellowCardHome = 0
+        countScoreHome = 0
+        countScoreAway = 0
+        countRedCardAway = 0
+        countRedCardHome = 0
+        for allNameEvent,element in zip(namePlayerSolution,range(0,len(namePlayerSolution))):
             
-            namePlayerSolution = []
-
-            lengthEventPeople = len(listAllPlayer)
-            for elementEventPlayer in range(0,lengthEventPeople):
-                allTimeEvent = listAllTime[elementEventPlayer].split(",")
-                lengthTimeForEvent = len(allTimeEvent)
-                if lengthTimeForEvent == 1:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 2:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 3:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 4:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 5:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 6:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 7:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 8:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 9:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                elif lengthTimeForEvent == 10:
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-                    namePlayerSolution.append(listAllPlayer[elementEventPlayer])
-            countYellowCardAway = 0
-            countYellowCardHome = 0
-            countScoreHome = 0
-            countScoreAway = 0
-            countRedCardAway = 0
-            countRedCardHome = 0
-            for allNameEvent,element in zip(namePlayerSolution,range(0,len(namePlayerSolution))):
-                
-                if 'YellowCardAway' in allNameEvent:
-                    countYellowCardAway += 1
-                    namePlayerSolution[element] = "{}:{}".format(allNameEvent,countYellowCardAway)
-                elif 'YellowCardHome' in allNameEvent:
-                    countYellowCardHome += 1
-                    namePlayerSolution[element] = "{}:{}".format(allNameEvent,countYellowCardHome)
-                
-                elif 'ScoreHome' in allNameEvent:
-                    countScoreHome += 1
-                    namePlayerSolution[element] = "{}:{} - {}".format(allNameEvent,countScoreHome,countScoreAway)
-                elif 'ScoreAway' in allNameEvent:
-                    countScoreAway += 1
-                    namePlayerSolution[element] = "{}:{} - {}".format(allNameEvent,countScoreHome,countScoreAway)
-                
-                elif 'RedCardAway' in allNameEvent:
-                    countRedCardAway += 1
-                    namePlayerSolution[element] = "{}:{}".format(allNameEvent,countRedCardAway)
-                elif 'RedCardHome' in allNameEvent:
-                    countRedCardHome += 1
-                    namePlayerSolution[element] = "{}:{}".format(allNameEvent,countRedCardHome)
-            listAllTimeSolution = []
-            for element in range(0,len(listAllTime)):
-                allListSplitTime = listAllTime[element].split(" pen.")
-                allListAddTime = allListSplitTime[0]
-                allListAddTimeNotQuote = allListAddTime.split(", ")
-                lenghtDataNotQuote = len(allListAddTimeNotQuote)
-                for elementNotQuote in range(0,lenghtDataNotQuote):
-                    allTimeSolution = allListAddTimeNotQuote[elementNotQuote][:-1]
-                    listAllTimeSolution.append(allTimeSolution)
-            listAllTimeSolution = list(map(int, listAllTimeSolution))
-            nameAndNumber = []
-            for allListElement in range(0,len(listAllTimeSolution)):
-                nameAndNumber.append([namePlayerSolution[allListElement] ,listAllTimeSolution[allListElement]])
-            def Sort(StringAndNumber): 
-                return(sorted(StringAndNumber, key = lambda x: x[1]))     
-            StringAndNumber = nameAndNumber
-            allNameAndStringRank = Sort(StringAndNumber)
-            listAllEventPlayer = []
-            for elementAllEvent in range(0,len(allNameAndStringRank)):
-                AllEvent = allNameAndStringRank[elementAllEvent][0]
-                timeEvent = allNameAndStringRank[elementAllEvent][1]
-                splitAllEvent = AllEvent.split(":")
-                EventName = splitAllEvent[0]
-                EventCategory = splitAllEvent[1]
-                EventScore = splitAllEvent[2]
-                if 'YellowCardAway' in EventCategory:
-                    awayPlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1,"align":"end"}]}"""%(EventName,timeEvent)
-                    listAllEventPlayer.append(awayPlayerYellowCard)
-                elif 'YellowCardHome' in EventCategory:
-                    homePlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}"""%(EventName,timeEvent)
-                    listAllEventPlayer.append(homePlayerYellowCard)
-                elif 'ScoreHome' in EventCategory:
-                    homePlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1},{"type":"text","text":"%s","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}"""%(EventName,timeEvent,EventScore)
-                    listAllEventPlayer.append(homePlayerScore)
-                elif 'ScoreAway' in EventCategory:
-                    awayPlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"text","text":"%s","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1}]}"""%(EventScore,EventName,timeEvent)        
-                    listAllEventPlayer.append(awayPlayerScore)
-                elif 'RedCardAway' in EventCategory:
-                    awayPlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1,"align":"end"}]}"""%(EventName,timeEvent)      
-                    listAllEventPlayer.append(awayPlayerRedCard)
-                elif 'RedCardHome' in EventCategory:
-                    homePlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}"""%(EventName,timeEvent)
-                    listAllEventPlayer.append(homePlayerRedCard)
-            allEventPlayer = "".join(listAllEventPlayer)
-            homePlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"playerSc(40')","wrap":true,"size":"sm","flex":1},{"type":"text","text":"1 - 0","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}
-            """
-            homePlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"YellowC(50')","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}               
-            """
-            homePlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"YellowC(50')","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}            
-            """
-            awayPlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"text","text":"1 - 1","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":"playerSc(20')","wrap":true,"size":"sm","flex":1}]}                
-            """
-            awayPlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":"YellowC(60')","wrap":true,"size":"sm","flex":1,"align":"end"}]}
-            """
-            awayPlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":"YellowC(60')","wrap":true,"size":"sm","flex":1,"align":"end"}]}           
-            """
-            penaltyTrue = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"panelty:","color":"#008000","weight":"bold","size":"sm","flex":2},{"type":"text","text":"%s","wrap":true,"size":"sm","flex":4}]}"""%(penalty)
-            # print(listAllTime[4])
-            # print("penalty:",penalty)
-            # print("homeTeam:",homeTeam)
-            # print("awayTeam:",awayTeam)
-            # print("dateTime:",dateTime)
-            # print("league:",league)
-            # print("timeStatus:",timeStatus)
-            scoreBall = """
+            if 'YellowCardAway' in allNameEvent:
+                countYellowCardAway += 1
+                namePlayerSolution[element] = "{}:{}".format(allNameEvent,countYellowCardAway)
+            elif 'YellowCardHome' in allNameEvent:
+                countYellowCardHome += 1
+                namePlayerSolution[element] = "{}:{}".format(allNameEvent,countYellowCardHome)
+            
+            elif 'ScoreHome' in allNameEvent:
+                countScoreHome += 1
+                namePlayerSolution[element] = "{}:{} - {}".format(allNameEvent,countScoreHome,countScoreAway)
+            elif 'ScoreAway' in allNameEvent:
+                countScoreAway += 1
+                namePlayerSolution[element] = "{}:{} - {}".format(allNameEvent,countScoreHome,countScoreAway)
+            
+            elif 'RedCardAway' in allNameEvent:
+                countRedCardAway += 1
+                namePlayerSolution[element] = "{}:{}".format(allNameEvent,countRedCardAway)
+            elif 'RedCardHome' in allNameEvent:
+                countRedCardHome += 1
+                namePlayerSolution[element] = "{}:{}".format(allNameEvent,countRedCardHome)
+        listAllTimeSolution = []
+        for element in range(0,len(listAllTime)):
+            allListSplitTime = listAllTime[element].split(" pen.")
+            allListAddTime = allListSplitTime[0]
+            allListAddTimeNotQuote = allListAddTime.split(", ")
+            lenghtDataNotQuote = len(allListAddTimeNotQuote)
+            for elementNotQuote in range(0,lenghtDataNotQuote):
+                allTimeSolution = allListAddTimeNotQuote[elementNotQuote][:-1]
+                listAllTimeSolution.append(allTimeSolution)
+        listAllTimeSolution = list(map(int, listAllTimeSolution))
+        nameAndNumber = []
+        for allListElement in range(0,len(listAllTimeSolution)):
+            nameAndNumber.append([namePlayerSolution[allListElement] ,listAllTimeSolution[allListElement]])
+        def Sort(StringAndNumber): 
+            return(sorted(StringAndNumber, key = lambda x: x[1]))     
+        StringAndNumber = nameAndNumber
+        allNameAndStringRank = Sort(StringAndNumber)
+        listAllEventPlayer = []
+        for elementAllEvent in range(0,len(allNameAndStringRank)):
+            AllEvent = allNameAndStringRank[elementAllEvent][0]
+            timeEvent = allNameAndStringRank[elementAllEvent][1]
+            splitAllEvent = AllEvent.split(":")
+            EventName = splitAllEvent[0]
+            EventCategory = splitAllEvent[1]
+            EventScore = splitAllEvent[2]
+            if 'YellowCardAway' in EventCategory:
+                awayPlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1,"align":"end"}]}"""%(EventName,timeEvent)
+                listAllEventPlayer.append(awayPlayerYellowCard)
+            elif 'YellowCardHome' in EventCategory:
+                homePlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}"""%(EventName,timeEvent)
+                listAllEventPlayer.append(homePlayerYellowCard)
+            elif 'ScoreHome' in EventCategory:
+                homePlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1},{"type":"text","text":"%s","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}"""%(EventName,timeEvent,EventScore)
+                listAllEventPlayer.append(homePlayerScore)
+            elif 'ScoreAway' in EventCategory:
+                awayPlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"text","text":"%s","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1}]}"""%(EventScore,EventName,timeEvent)        
+                listAllEventPlayer.append(awayPlayerScore)
+            elif 'RedCardAway' in EventCategory:
+                awayPlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1,"align":"end"}]}"""%(EventName,timeEvent)      
+                listAllEventPlayer.append(awayPlayerRedCard)
+            elif 'RedCardHome' in EventCategory:
+                homePlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"%s(%s)","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}"""%(EventName,timeEvent)
+                listAllEventPlayer.append(homePlayerRedCard)
+        allEventPlayer = "".join(listAllEventPlayer)
+        homePlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"playerSc(40')","wrap":true,"size":"sm","flex":1},{"type":"text","text":"1 - 0","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}
+        """
+        homePlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"YellowC(50')","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}               
+        """
+        homePlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"YellowC(50')","wrap":true,"size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":" ","wrap":true,"size":"sm","flex":1,"align":"start"}]}            
+        """
+        awayPlayerScore = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"text","text":"1 - 1","wrap":true,"color":"#008000","weight":"bold","size":"sm","flex":1,"align":"center"},{"type":"text","text":"playerSc(20')","wrap":true,"size":"sm","flex":1}]}                
+        """
+        awayPlayerYellowCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/220px-Yellow_card.svg.png","size":"sm"},{"type":"text","text":"YellowC(60')","wrap":true,"size":"sm","flex":1,"align":"end"}]}
+        """
+        awayPlayerRedCard = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":" ","color":"#aaaaaa","size":"sm","flex":1},{"type":"icon","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_card.svg/1200px-Red_card.svg.png","size":"sm"},{"type":"text","text":"YellowC(60')","wrap":true,"size":"sm","flex":1,"align":"end"}]}           
+        """
+        penaltyTrue = """,{"type":"box","layout":"baseline","spacing":"sm","contents":[{"type":"text","text":"panelty:","color":"#008000","weight":"bold","size":"sm","flex":2},{"type":"text","text":"%s","wrap":true,"size":"sm","flex":4}]}"""%(penalty)
+        # print(listAllTime[4])
+        # print("penalty:",penalty)
+        # print("homeTeam:",homeTeam)
+        # print("awayTeam:",awayTeam)
+        # print("dateTime:",dateTime)
+        # print("league:",league)
+        # print("timeStatus:",timeStatus)
+        scoreBall = """
 {
-  "type": "bubble",
-  "body": {
+"type": "bubble",
+"body": {
+"type": "box",
+"layout": "vertical",
+"spacing": "md",
+"contents": [
+    {
+    "type": "text",
+    "text": "%s",
+    "wrap": true,
+    "weight": "bold",
+    "gravity": "center",
+    "size": "lg",
+    "color": "#008000"
+    },
+    {
+    "type": "box",
+    "layout": "baseline",
+    "spacing": "sm",
+    "contents": [
+        {
+        "type": "text",
+        "text": "%s",
+        "flex": 5,
+        "align": "start"
+        },
+        {
+        "type": "text",
+        "text": "%s : %s",
+        "color": "#008000",
+        "weight": "bold",
+        "flex": 2,
+        "align": "center"
+        },
+        {
+        "type": "text",
+        "text": "%s",
+        "flex": 5,
+        "align": "end"
+        }
+    ]
+    },
+    {
     "type": "box",
     "layout": "vertical",
-    "spacing": "md",
+    "margin": "lg",
+    "spacing": "sm",
     "contents": [
-      {
+        {
+        "type": "box",
+        "layout": "baseline",
+        "spacing": "sm",
+        "contents": [
+            {
+            "type": "text",
+            "text": "------------------event------------------",
+            "color": "#008000",
+            "size": "sm",
+            "weight": "bold",
+            "align": "center"
+            }
+        ]
+        }%s
+    ]
+    }
+]
+},
+"footer": {
+"type": "box",
+"layout": "vertical",
+"contents": [
+    {
+    "type": "separator",
+    "margin": "xxl"
+    },
+    {
+    "type": "box",
+    "layout": "baseline",
+    "margin": "md",
+    "contents": [
+        {
+        "type": "text",
+        "text": "league:",
+        "color": "#008000",
+        "weight": "bold",
+        "size": "sm",
+        "flex": 2
+        },
+        {
         "type": "text",
         "text": "%s",
         "wrap": true,
-        "weight": "bold",
-        "gravity": "center",
-        "size": "lg",
-        "color": "#008000"
-      },
-      {
-        "type": "box",
-        "layout": "baseline",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "text",
-            "text": "%s",
-            "flex": 5,
-            "align": "start"
-          },
-          {
-            "type": "text",
-            "text": "%s : %s",
-            "color": "#008000",
-            "weight": "bold",
-            "flex": 2,
-            "align": "center"
-          },
-          {
-            "type": "text",
-            "text": "%s",
-            "flex": 5,
-            "align": "end"
-          }
-        ]
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "margin": "lg",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "box",
-            "layout": "baseline",
-            "spacing": "sm",
-            "contents": [
-              {
-                "type": "text",
-                "text": "------------------event------------------",
-                "color": "#008000",
-                "size": "sm",
-                "weight": "bold",
-                "align": "center"
-              }
-            ]
-          }%s
-        ]
-      }
+        "size": "sm",
+        "flex": 4
+        }
     ]
-  },
-  "footer": {
+    },
+    {
     "type": "box",
-    "layout": "vertical",
+    "layout": "baseline",
+    "spacing": "sm",
     "contents": [
-      {
-        "type": "separator",
-        "margin": "xxl"
-      },
-      {
-        "type": "box",
-        "layout": "baseline",
-        "margin": "md",
-        "contents": [
-          {
-            "type": "text",
-            "text": "league:",
-            "color": "#008000",
-            "weight": "bold",
-            "size": "sm",
-            "flex": 2
-          },
-          {
-            "type": "text",
-            "text": "%s",
-            "wrap": true,
-            "size": "sm",
-            "flex": 4
-          }
-        ]
-      },
-      {
-        "type": "box",
-        "layout": "baseline",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Date:",
-            "color": "#008000",
-            "weight": "bold",
-            "size": "sm",
-            "flex": 2
-          },
-          {
-            "type": "text",
-            "text": "%s",
-            "wrap": true,
-            "size": "sm",
-            "flex": 4
-          }
-        ]
-      }
-      %s
+        {
+        "type": "text",
+        "text": "Date:",
+        "color": "#008000",
+        "weight": "bold",
+        "size": "sm",
+        "flex": 2
+        },
+        {
+        "type": "text",
+        "text": "%s",
+        "wrap": true,
+        "size": "sm",
+        "flex": 4
+        }
     ]
-  }
+    }
+    %s
+]
 }
-            """%(timeStatus,homeTeam,ScoreHome,ScoreAway,awayTeam,allEventPlayer,league,dateTime,penaltyTrue)
-            scoreBall = json.loads(scoreBall)
-            carousel_container.contents.append(scoreBall)
-            line_bot_api.reply_message(event.reply_token, FlexSendMessage(alt_text='Fixtures', contents=carousel_container))
+}
+        """%(timeStatus,homeTeam,ScoreHome,ScoreAway,awayTeam,allEventPlayer,league,dateTime,penaltyTrue)
+        scoreBall = json.loads(scoreBall)
+        carousel_container.contents.append(scoreBall)
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage(alt_text='Fixtures', contents=carousel_container))
 # (--------------------------------------------------Ball league-------------------------------------------------)
     elif event.message.text[:14] == 'allTableLeague':
         apiTable = ('https://scrape-league-ball.herokuapp.com/')
@@ -957,7 +959,7 @@ def handle_message(event):
             # print(lengthGroupTop)
             listButtomPage = ['GroupB','GroupD','GroupF','GroupH','GroupJ','GroupL']
             lengthGroupBottom = len(listButtomPage)
-
+            print(lengthGroupBottom)
         for elementGroup in range(0,lengthGroupTop):
             for elementRank in range(1,5):
                 GameplayTopPage = listGroup[listTopPage[elementGroup]]['{}'.format(elementRank)]['Gameplay']
@@ -1073,7 +1075,7 @@ def handle_message(event):
                 lossesGroupFour.append(allDataLossesBottom)
                 pointGroupFour.append(allDataPointBottom)
         for elementBubble in range(0,lengthGroupBottom):
-            tableGroupTop = '''{"type":"bubble","styles":{"header":{"backgroundColor":"#c70039"}},"header":{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","color":"#FFFFFF","size":"lg"}]},"body":{"type":"box","layout":"vertical","contents":[{"type":"box","layout":"vertical","margin":"xxl","spacing":"sm","contents":[{"type":"text","text":"%s","size":"lg"},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"#","weight":"bold","flex":1,"gravity":"center"},{"type":"text","text":"Team","weight":"bold","flex":5,"gravity":"center"},{"type":"text","weight":"bold","text":"P","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"W","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"D","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"L","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"Pt","flex":1,"gravity":"center"}]},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]}]},{"type":"separator","margin":"xl"},{"type":"box","layout":"vertical","margin":"xxl","spacing":"sm","contents":[{"type":"text","text":"%s","size":"lg"},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"#","weight":"bold","flex":1,"gravity":"center"},{"type":"text","text":"Team","weight":"bold","flex":5,"gravity":"center"},{"type":"text","weight":"bold","text":"P","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"W","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"D","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"L","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"Pt","flex":1,"gravity":"center"}]},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]}]}]}}'''%(categoryCup,listTopPage[elementBubble],RankGroupOneTop[elementBubble],teamGroupOneTop[elementBubble],GamePlayGroupOneTop[elementBubble],winsGroupOneTop[elementBubble],drawGroupOneTop[elementBubble],lossesGroupOneTop[elementBubble],pointGroupOneTop[elementBubble],            
+            tableGroupTop = '''{"type":"bubble","styles":{"header":{"backgroundColor":"#228B22"}},"header":{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","color":"#FFFFFF","size":"lg"}]},"body":{"type":"box","layout":"vertical","contents":[{"type":"box","layout":"vertical","margin":"xxl","spacing":"sm","contents":[{"type":"text","text":"%s","size":"lg"},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"#","weight":"bold","flex":1,"gravity":"center"},{"type":"text","text":"Team","weight":"bold","flex":5,"gravity":"center"},{"type":"text","weight":"bold","text":"P","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"W","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"D","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"L","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"Pt","flex":1,"gravity":"center"}]},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]}]},{"type":"separator","margin":"xl"},{"type":"box","layout":"vertical","margin":"xxl","spacing":"sm","contents":[{"type":"text","text":"%s","size":"lg"},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"#","weight":"bold","flex":1,"gravity":"center"},{"type":"text","text":"Team","weight":"bold","flex":5,"gravity":"center"},{"type":"text","weight":"bold","text":"P","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"W","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"D","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"L","flex":1,"gravity":"center"},{"type":"text","weight":"bold","text":"Pt","flex":1,"gravity":"center"}]},{"type":"separator","margin":"sm"},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]},{"type":"box","layout":"horizontal","contents":[{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":5,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"},{"type":"text","text":"%s","flex":1,"gravity":"center"}]}]}]}}'''%(categoryCup,listTopPage[elementBubble],RankGroupOneTop[elementBubble],teamGroupOneTop[elementBubble],GamePlayGroupOneTop[elementBubble],winsGroupOneTop[elementBubble],drawGroupOneTop[elementBubble],lossesGroupOneTop[elementBubble],pointGroupOneTop[elementBubble],            
             RankGroupTwoTop[elementBubble],teamGroupTwoTop[elementBubble],GamePlayGroupTwoTop[elementBubble],winsGroupTwoTop[elementBubble],drawGroupTwoTop[elementBubble],lossesGroupTwoTop[elementBubble],pointGroupTwoTop[elementBubble],
             RankGroupThreeTop[elementBubble],teamGroupThreeTop[elementBubble],GamePlayGroupThreeTop[elementBubble],winsGroupThreeTop[elementBubble],drawGroupThreeTop[elementBubble],lossesGroupThreeTop[elementBubble],pointGroupThreeTop[elementBubble],
             RankGroupFourTop[elementBubble],teamGroupFourTop[elementBubble],GamePlayGroupFourTop[elementBubble],winsGroupFourTop[elementBubble],drawGroupFourTop[elementBubble],lossesGroupFourTop[elementBubble],pointGroupFourTop[elementBubble],            
@@ -1190,7 +1192,7 @@ def handle_message(event):
     # else:
     #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
-    
+# run in heroku
 if __name__ == '__main__':
     app.run(debug=True)
 # run in ngrok
