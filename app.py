@@ -1194,7 +1194,7 @@ def handle_message(event):
 
 # run in heroku
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 # run in ngrok
 # if __name__ == '__main__':
 #     app.run(debug=True, port=80)
