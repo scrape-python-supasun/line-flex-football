@@ -1180,7 +1180,7 @@ def handle_message(event):
             linkWebNewsEng = allDataNewsEng['linkWeb']
             minuesTimesNewsEng = allDataNewsEng['minuesNewTimes']
             photoNewEng = allDataNewsEng['photo']
-            print(allDataNewsEng)
+            # print(allDataNewsEng)
             # เข้าไปเปลี่ยนเป็นบรรทัดเดียวได้ทีได้ที่ https://codebeautify.org/jsonviewer/cb7f415d
             newsEng = """{"type":"bubble","styles":{"header":{"backgroundColor":"#228B22"}},"header":{"type":"box","layout":"vertical","contents":[{"type":"text","wrap":true,"text":"Day:%s Time:%s","weight":"bold","color":"#FFFFFF","size":"sm"},{"type":"filler"},{"type":"text","wrap":true,"text":"%s","weight":"bold","color":"#FFFFFF","size":"xl"}]},"hero":{"type":"image","url":"%s","size":"full","aspectRatio":"20:13","aspectMode":"cover","action":{"type":"uri","uri":"http://linecorp.com/"}},"body":{"type":"box","layout":"horizontal","spacing":"sm","flex":4,"contents":[{"type":"box","layout":"vertical","margin":"lg","spacing":"xl","contents":[{"type":"text","wrap":false,"text":"%s","size":"lg"},{"type":"filler"},{"type":"text","wrap":true,"text":"%s","size":"md"}]}]},"footer":{"type":"box","layout":"vertical","spacing":"sm","contents":[{"type":"button","style":"primary","action":{"type":"uri","label":"See more","uri":"%s"}}]}}"""%(dayTimeNewsEng,minuesTimesNewsEng,categoryNewsEng,photoNewEng,headerNewsEng,descriptionNewsEng,linkWebNewsEng)
             newsEng = json.loads(newsEng)
@@ -1194,7 +1194,7 @@ def handle_message(event):
 
 # run in heroku
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 # run in ngrok
 # if __name__ == '__main__':
 #     app.run(debug=True, port=80)
